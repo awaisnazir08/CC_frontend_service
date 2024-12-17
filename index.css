@@ -13,7 +13,7 @@ body {
 }
 
 .btn {
-    background-color: #4caf50;
+    background-color: #007bff;
     color: white;
     padding: 10px 20px;
     margin: 10px;
@@ -25,7 +25,7 @@ body {
 }
 
 .btn:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
 }
 
 .modal {
@@ -75,7 +75,7 @@ body {
 }
 
 .modal-btn {
-    background-color: #4caf50;
+    background-color: #007bff;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -85,7 +85,7 @@ body {
 }
 
 .modal-btn:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
 }
 
 .close {
@@ -100,6 +100,3 @@ body {
 .close:hover {
     color: #000;
 }
-
-
-/* #4c51bf */

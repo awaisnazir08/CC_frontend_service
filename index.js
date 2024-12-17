@@ -102,7 +102,3 @@ document.querySelector("#loginModal form").addEventListener("submit", async (eve
         alert("Something went wrong. Please try again later.");
     }
 });
-
-
-
-// URL: https://user-management-service-901574415199.us-central1.run.app

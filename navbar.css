@@ -1,0 +1,36 @@
+/* Navbar Styles */
+.navbar {
+    background-color: #4c51bf; /* Indigo background */
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    position: fixed;  /* Fix the navbar at the top */
+    top: 0;           /* Align it to the top */
+    left: 0;          /* Align it to the left edge */
+    width: 100%;      /* Make the navbar span the full width */
+    z-index: 1000;    /* Ensure it stays on top of other elements */
+    padding-right: 20px; /* Leave some space on the right side */
+}
+
+.navbar .title {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.navbar .logout-btn {
+    background-color: #4c51bf;
+    font-size: 16px;
+    padding: 5px 10px ;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: auto; /* Push the button to the far right */
+    margin-right: 30px; /* Add some space from the right edge */
+}
+
+.navbar .logout-btn:hover {
+    background-color: #3b40a2; /* Optional: darker color on hover */
+}
