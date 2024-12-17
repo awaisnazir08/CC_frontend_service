@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Welcome to Your Dashboard</h1>
+        <p id="welcomeMessage">Fetching your details...</p>
+
+        <!-- Profile Details Button -->
+        <button id="profileDetailsBtn">Profile Details</button>
+
+        <!-- Logout Button -->
+        <button id="logoutBtn">Logout</button>
+    </div>
+
+    <!-- Profile Details Modal -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <span class="close" id="closeProfileModal">&times;</span>
+            <h2>Your Profile Details</h2>
+            <div id="userDetails"></div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
