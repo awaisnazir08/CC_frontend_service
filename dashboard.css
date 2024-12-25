@@ -10,6 +10,7 @@ body {
 }
 
 .dashboard-container {
+    margin-top: 50px;
     text-align: center;
     background: #fff;
     padding: 20px;
@@ -21,7 +22,15 @@ h1 {
     color: #333;
 }
 
-#profileDetailsBtn {
+.buttons-container {
+    display: flex;
+    flex-direction: column;  /* Stack the buttons vertically */
+    align-items: center;     /* Center align buttons horizontally */
+    width: 100%;             /* Make sure the container takes full width */
+}
+
+
+button {
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 16px;
@@ -31,12 +40,12 @@ h1 {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    width: 146px;
 }
 
 button:hover {
     background-color: #0056b3;
 }
-
 
 /* Modal Styles */
 .modal {
@@ -53,28 +62,91 @@ button:hover {
 
 .modal-content {
     background-color: #fff;
-    margin: auto; /* Center the modal horizontally and vertically */
-    position: relative; /* Needed for proper centering */
-    top: 10%; /* Start at 50% from the top */
-    transform: translateY(-50%); /* Center vertically by adjusting the position */
+    margin: 10% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 40%; /* Adjust the width as necessary */
+    width: 50%;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Optional shadow for better visibility */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-
 
 .close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
     cursor: pointer;
 }
+
+.close:hover {
+    color: black;
+}
+
+.progress-container {
+    margin-top: 20px;
+}
+
+.progress-bar {
+    height: 30px;
+    border-radius: 5px;
+    background: #e0e0e0;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar-inner {
+    height: 100%;
+    text-align: center;
+    line-height: 30px;
+    color: white;
+    position: absolute;
+}
+
+.progress-used {
+    background-color: #ff4d4d;
+    left: 0;
+}
+
+.progress-remaining {
+    background-color: #4caf50;
+    right: 0;
+}
+
+table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+}
+
+table th {
+    text-align: center;
+    background-color: #f4f4f9; /* Optional: Keep the background color */
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f9;
+}
+
+button.trash-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ff4d4d;
+    font-size: 20px;
+}
+
+button.trash-btn:hover {
+    color: #d9534f;
+}
+
+/* Option 2: Make the delete modal scrollable */
+#deleteFileModal .modal-content {
+    height: 300px; /* Set a fixed height */
+    overflow-y: auto;  /* Enable scrolling */
+}
+

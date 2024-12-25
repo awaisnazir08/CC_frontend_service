@@ -11,15 +11,25 @@
 
     <nav class="navbar">
         <div class="title">CSS</div>
-        <button class="logout-btn" id="logoutBtn">Logout</button>
+        <div class="navbar-buttons">
+            <button class="profile-button" id="profileDetailsBtn">Profile Details</button>
+            <button class="logout-btn" id="logoutBtn">Logout</button>
+        </div>
     </nav>
 
     <div class="dashboard-container">
         <h1>Welcome to Your Dashboard</h1>
         <p id="welcomeMessage">Fetching your details...</p>
 
-        <!-- Profile Details Button -->
-        <button id="profileDetailsBtn">Profile Details</button>
+        <div class="buttons-container">
+            
+            <button id="storageStatusBtn">Storage Status</button>
+            <button id="deleteFileBtn">Delete File</button>
+            <button id="uploadFileBtn">Upload Video</button>
+            <input type="file" id="fileInput" style="display: none;" accept="video/*">
+            <p id="uploadProgress" style="margin-top: 10px; font-weight: bold;"></p>
+        </div>
+        
     </div>
 
     <!-- Profile Details Modal -->
@@ -30,6 +40,42 @@
             <div id="userDetails"></div>
         </div>
     </div>
+
+    <!-- Storage Status Modal -->
+    <div class="modal" id="storageStatusModal">
+        <div class="modal-content">
+            <span class="close" id="closeStorageStatusModal">&times;</span>
+            <h2>Storage Status</h2>
+            <div id="storageDetails"></div>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div id="progressBarUsed" class="progress-bar-inner progress-used"></div>
+                    <div id="progressBarRemaining" class="progress-bar-inner progress-remaining"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete File Modal -->
+    <div class="modal" id="deleteFileModal">
+        <div class="modal-content">
+            <span class="close" id="closeDeleteFileModal">&times;</span>
+            <h2>Select a file to delete</h2>
+            <table id="fileTable">
+                <thead>
+                    <tr>
+                        <th>Filename</th>
+                        <th>Size</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Files will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 
     <script src="dashboard.js"></script>
 </body>
