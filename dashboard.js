@@ -1,4 +1,3 @@
-// Check if the user is logged in
 const token = localStorage.getItem("authToken");
 
 if (!token) {
@@ -81,15 +80,43 @@ uploadFileBtn.addEventListener("click", () => {
     fileInput.click();
 });
 
+// Pre-check and upload file if not already existing
+function preCheckAndUploadFile(file) {
+    const filenameToUpload = file.name;
+
+    fetch("https://video-storage-management-service-901574415199.us-central1.run.app/storage-status", {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        const existingFile = data.files.find(f => f.filename.split('/').pop() === filenameToUpload);
+        if (existingFile) {
+            alert("File with the same name already exists. Please rename the file or delete the existing one.");
+        } else {
+            // Proceed with file upload
+            uploadFile(file);
+        }
+    })
+    .catch(error => {
+        alert("Error checking existing files: " + error.message);
+    });
+}
+
 // Handle file selection and upload
 fileInput.addEventListener("change", () => {
     const file = fileInput.files[0];
-    if (!file) {
+    if (file) {
+        preCheckAndUploadFile(file); // Call preCheckAndUploadFile instead of directly uploading
+    } else {
         alert("No file selected.");
-        return;
     }
+});
 
-    // Validate file type
+function uploadFile(file) {
+    // Validate file type (same logic as before)
     if (!allowedVideoTypes.includes(file.type)) {
         alert("Invalid file type. Please upload a video file.");
         fileInput.value = ""; // Clear the file input
@@ -127,6 +154,8 @@ fileInput.addEventListener("change", () => {
                 if (response.bandwidth_checks.bandwidth_limit_exceeded) {
                     alert("Error: Bandwidth limit exceeded!");
                 }
+                // Reset file input after successful upload
+                fileInput.value = ""; // Clear the file input
             } else if (xhr.status === 400) {
                 alert(`Error: ${response.error}`);
             } else if (xhr.status === 401) {
@@ -135,6 +164,8 @@ fileInput.addEventListener("change", () => {
                 window.location.href = "index.html";
             } else if (xhr.status === 403) {
                 alert(`Error: ${response.error}`);
+            } else if (xhr.status === 409) {
+                alert(`Error: ${response.error}\nConsider renaming your file before re-uploading.`);
             } else {
                 alert("Unexpected error occurred.");
             }
@@ -144,7 +175,7 @@ fileInput.addEventListener("change", () => {
     xhr.open("POST", "https://video-storage-management-service-901574415199.us-central1.run.app/upload", true);
     xhr.setRequestHeader("Authorization", `Bearer ${token}`);
     xhr.send(formData);
-});
+}
 
 // Storage Status Modal Functionality
 const storageStatusBtn = document.getElementById("storageStatusBtn");
@@ -266,14 +297,7 @@ deleteFileBtn.addEventListener("click", () => {
 
 // Close delete file modal using the close button
 closeDeleteFileModal.addEventListener("click", () => {
-    deleteFileModal.style.display = "none"; // Close modal when the close button is clicked
-});
-
-// Close delete file modal when clicking outside the modal (anywhere outside the modal content)
-window.addEventListener("click", (event) => {
-    if (event.target === deleteFileModal) {
-        deleteFileModal.style.display = "none"; // Close modal when clicking outside
-    }
+    deleteFileModal.style.display = "none"; // Close modal when clicking the close button
 });
 
 // Delete file functionality
