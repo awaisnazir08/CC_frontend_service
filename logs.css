@@ -1,0 +1,35 @@
+/* Main container styles */
+#mainContainer {
+    margin-top: 80px;
+    display: flex;
+    justify-content: space-between;
+    padding: 50px;
+}
+
+/* Style for the summary containers */
+.summary-container {
+    width: 45%;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+
+h2 {
+    color: #333;
+}
+
+/* Styling for the daily summary list */
+#dailySummary ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#dailySummary li {
+    margin-bottom: 15px;
+}
+
+#dailySummary li strong {
+    color: #555;
+}
