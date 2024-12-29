@@ -181,6 +181,51 @@ function uploadFile(file) {
 const storageStatusBtn = document.getElementById("storageStatusBtn");
 const storageStatusModal = document.getElementById("storageStatusModal");
 const closeStorageStatusModal = document.getElementById("closeStorageStatusModal");
+const storageWarning = document.getElementById("storageWarning"); // The warning element
+const storageNoWarning=document.getElementById("storageNoWarning");
+
+
+
+// Function to fetch and display storage status
+function updateStorageStatus() {
+    const storageWarning = document.getElementById("storageWarning");
+    const storageNoWarning = document.getElementById("storageNoWarning");
+
+    console.log("storage function calling");
+
+    fetch("https://video-storage-management-service-901574415199.us-central1.run.app/storage-status", {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+        },
+    })
+        .then(response => response.json())
+        .then(data => {
+
+            const storageDetails = document.getElementById("storageDetails");
+            const totalStorageMB = (data.total_storage / (1024 * 1024)).toFixed(2); // Total storage in MB
+            const usedStorageMB = (data.used_storage / (1024 * 1024)).toFixed(2); // Used storage in MB
+            const storagePercentage = ((data.used_storage / data.total_storage) * 100).toFixed(2);
+
+
+            if (storagePercentage>80) {
+                // Show warning
+                storageWarning.style.display = "block";
+                storageNoWarning.style.display = "none";
+            } else {
+                // Show no warning
+                storageWarning.style.display = "none";
+                storageNoWarning.style.display = "block";
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching storage status:", error);
+        });
+}
+
+// Call updateStorageStatus on page load
+window.addEventListener("load", updateStorageStatus);
+
 
 storageStatusBtn.addEventListener("click", () => {
     fetch("https://video-storage-management-service-901574415199.us-central1.run.app/storage-status", {
@@ -216,11 +261,20 @@ storageStatusBtn.addEventListener("click", () => {
                 progressBarUsed.style.backgroundColor = "red";
                 // Remaining storage: Light gray
                 progressBarRemaining.style.backgroundColor = "#e0e0e0";
+
+                // Display the warning
+                storageWarning.style.display = "block"; // Show warning
+                storageNoWarning.style.display="none";
+
             } else {
                 // Safe usage: Green for used storage
                 progressBarUsed.style.backgroundColor = "green";
                 // Remaining storage: Light gray
                 progressBarRemaining.style.backgroundColor = "#e0e0e0";
+
+                 // Hide the warning
+                storageWarning.style.display = "none"; // Hide warning
+                storageNoWarning.style.display="block"
             }
 
             // Show the modal

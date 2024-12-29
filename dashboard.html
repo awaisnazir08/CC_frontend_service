@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="navbar.css">
 </head>
+
 <body>
 
     <nav class="navbar">
@@ -17,21 +19,35 @@
             <button>My Videos</button>
             <button class="logout-btn" id="logoutBtn">Logout</button>
         </div>
+
+
     </nav>
+
+
 
     <div class="dashboard-container">
         <h1>Welcome to Your Dashboard</h1>
+        <!-- Add a div for hazardous storage warning -->
+        <div id="storageWarning" style="display: none; color: red;">
+            <p>Warning: Storage exceeds 80%!</p>
+            <i class="fas fa-exclamation-triangle"></i> <!-- Example icon -->
+        </div>
+
+        <div id="storageNoWarning" style="display: none; color: green;">
+            <p>Storage below 80%</p>
+            <i class="fas fa-exclamation-triangle"></i> <!-- Example icon -->
+        </div>
         <p id="welcomeMessage">Fetching your details...</p>
 
         <div class="buttons-container">
-            
+
             <button id="storageStatusBtn">Storage Status</button>
             <button id="deleteFileBtn">Delete File</button>
             <button id="uploadFileBtn">Upload Video</button>
             <input type="file" id="fileInput" style="display: none;" accept="video/*">
             <p id="uploadProgress" style="margin-top: 10px; font-weight: bold;"></p>
         </div>
-        
+
     </div>
 
     <!-- Profile Details Modal -->
@@ -81,4 +97,5 @@
 
     <script src="dashboard.js"></script>
 </body>
+
 </html>
