@@ -387,21 +387,19 @@ function downloadFile(filename) {
 }
 
 
-
-// Stream file functionality
 function streamFile(filename) {
-
     // Remove the username part from the filename to send only the file name
     const filenameToStream = filename.split('/').pop();
-    
+
     console.log("File Name to Stream", filenameToStream);
+
+
     // Construct the API URL for the file stream
     const videoUrl = `http://127.0.0.1:5000/stream/video/${filenameToStream}`;
 
     deleteFileModal.style.display = "none"; // Show the modal only if files exist
 
     // Create a modal for the video player
-
     const modal = document.createElement("div");
     modal.classList.add("video-modal");
     modal.style.display = "flex";
@@ -415,8 +413,7 @@ function streamFile(filename) {
     modal.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
     modal.innerHTML = `
         <div style="position: relative; width: 80%; height: 80%; background: #000;">
-            <video controls autoplay style="width: 100%; height: 100%;">
-                <source src="${videoUrl}" type="video/mp4">
+            <video id="videoPlayer" controls autoplay style="width: 100%; height: 100%;">
                 Your browser does not support the video tag.
             </video>
             <button style="position: absolute; top: 10px; right: 10px; background: red; color: white; border: none; padding: 10px; cursor: pointer;" id="closeModal">Close</button>
@@ -429,5 +426,26 @@ function streamFile(filename) {
     // Add event listener to close the modal
     document.getElementById("closeModal").addEventListener("click", () => {
         modal.remove();
+    });
+
+    // Fetch the video stream with the token in headers
+    fetch(videoUrl, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`, // Include the token here
+        },
+    })
+    .then(async response => {
+        if (response.ok) {
+            const videoPlayer = document.getElementById('videoPlayer');
+            const videoBlob = await response.blob();
+            const videoURL = URL.createObjectURL(videoBlob);
+            videoPlayer.src = videoURL; // Set the video source to the blob URL
+        } else {
+            console.error('Failed to stream the video:', response.status);
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching video:', error);
     });
 }
