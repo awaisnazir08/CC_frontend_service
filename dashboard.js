@@ -289,16 +289,6 @@ deleteFileBtn.addEventListener("click", () => {
                         downloadButton.classList.add("download-btn");
                         downloadButton.innerHTML = "&#128190;"; // Download icon
                         downloadButton.addEventListener("click", () => downloadFile(file.filename)); // Send full filename here
-
-                        // downloadButton.addEventListener("click", () => {
-                        //     // Trigger file download
-                        //     const downloadLink = document.createElement("a");
-                        //     downloadLink.href = `https://video-storage-management-service-901574415199.us-central1.run.app/download/${fileNameWithoutUsername}`;
-                        //     downloadLink.download = fileNameWithoutUsername; // Set the filename for the download
-                        //     document.body.appendChild(downloadLink);
-                        //     downloadLink.click();
-                        //     document.body.removeChild(downloadLink); // Clean up the link element
-                        // });
                         actionCell.appendChild(downloadButton);
                     }
                 });
@@ -346,7 +336,45 @@ function deleteFile(filename) {
         });
 }
 
-function downloadFile(filename)
-{
-    print("Entered Down;load Function");
+// Download File
+function downloadFile(filename) {
+
+    // Remove the username part from the filename to send only the file name
+    const filenameToDownload = filename.split('/').pop();
+
+    console.log("FileName to Download: ", filenameToDownload);
+    // Construct the API URL for the file
+    const apiUrl = `http://127.0.0.1:5000/download/disk/${filenameToDownload}`;
+
+    // Send a GET request to the API
+    fetch(apiUrl, {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`, // Add token if required by the backend
+            "Content-Type": "application/json"
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok " + response.statusText);
+            }
+            return response.blob(); // Convert the response to a Blob object
+        })
+        .then(blob => {
+            // Create a temporary download link
+            const downloadLink = document.createElement("a");
+            downloadLink.href = window.URL.createObjectURL(blob);
+            downloadLink.download = filenameToDownload; // Use the same filename
+            document.body.appendChild(downloadLink);
+
+            // Programmatically click the link to trigger the download
+            downloadLink.click();
+
+            // Clean up the temporary link
+            document.body.removeChild(downloadLink);
+        })
+        .catch(error => {
+            console.error("Error downloading file:", error);
+            alert("Error downloading file: " + error.message);
+        });
 }
