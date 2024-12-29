@@ -1,5 +1,7 @@
 const token = localStorage.getItem("authToken");
 
+
+
 if (!token) {
     alert("Unauthorized! Please log in.");
     window.location.href = "index.html";
