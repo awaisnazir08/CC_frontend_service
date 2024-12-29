@@ -132,6 +132,7 @@ th {
     background-color: #f4f4f9;
 }
 
+
 button.trash-btn {
     background: none;
     border: none;
@@ -142,6 +143,24 @@ button.trash-btn {
 
 button.trash-btn:hover {
     color: #d9534f;
+}
+
+
+/* Styling for the download button */
+button.download-btn {
+    background-color: white;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+/* Download button hover effect */
+button.download-btn:hover {
+    background-color: #0056b3;
 }
 
 /* Option 2: Make the delete modal scrollable */
