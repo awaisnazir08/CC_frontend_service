@@ -442,16 +442,16 @@ function downloadFile(filename) {
 
 
 function streamFile(filename) {
-    // Remove the username part from the filename to send only the file name
+    // Extract the file name only (remove any preceding path components)
     const filenameToStream = filename.split('/').pop();
 
     console.log("File Name to Stream", filenameToStream);
 
+    // Construct the API URL for fetching the signed URL
+    const apiUrl = `http://127.0.0.1:5000/stream/direct/${filenameToStream}`;
 
-    // Construct the API URL for the file stream
-    const videoUrl = `http://127.0.0.1:5000/stream/video/${filenameToStream}`;
-
-    deleteFileModal.style.display = "none"; // Show the modal only if files exist
+    // Hide the delete file modal
+    deleteFileModal.style.display = "none";
 
     // Create a modal for the video player
     const modal = document.createElement("div");
@@ -482,24 +482,20 @@ function streamFile(filename) {
         modal.remove();
     });
 
-    // Fetch the video stream with the token in headers
-    fetch(videoUrl, {
+    // Fetch the signed URL from the API
+    fetch(apiUrl, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`, // Include the token here
         },
     })
-    .then(async response => {
-        if (response.ok) {
-            const videoPlayer = document.getElementById('videoPlayer');
-            const videoBlob = await response.blob();
-            const videoURL = URL.createObjectURL(videoBlob);
-            videoPlayer.src = videoURL; // Set the video source to the blob URL
-        } else {
-            console.error('Failed to stream the video:', response.status);
-        }
+    .then(response => response.text()) // Expect the response to be a plain text URL
+    .then(signedUrl => {
+        console.log("Signed URL received:", signedUrl);
+        const videoPlayer = document.getElementById('videoPlayer');
+        videoPlayer.src = signedUrl; // Set the video source to the signed URL
     })
     .catch(error => {
-        console.error('Error fetching video:', error);
+        console.error('Error fetching signed URL:', error);
     });
 }
