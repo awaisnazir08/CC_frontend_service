@@ -290,6 +290,13 @@ deleteFileBtn.addEventListener("click", () => {
                         downloadButton.innerHTML = "&#128190;"; // Download icon
                         downloadButton.addEventListener("click", () => downloadFile(file.filename)); // Send full filename here
                         actionCell.appendChild(downloadButton);
+
+                        // Add play icon button
+                        const playButton = document.createElement("button");
+                        playButton.classList.add("play-btn");
+                        playButton.innerHTML = "&#9658;"; // Play icon (triangle symbol)
+                        playButton.addEventListener("click", () => streamFile(file.filename)); // Call streamFile function
+                        actionCell.appendChild(playButton);
                     }
                 });
                 deleteFileModal.style.display = "flex"; // Show the modal only if files exist
@@ -377,4 +384,50 @@ function downloadFile(filename) {
             console.error("Error downloading file:", error);
             alert("Error downloading file: " + error.message);
         });
+}
+
+
+
+// Stream file functionality
+function streamFile(filename) {
+
+    // Remove the username part from the filename to send only the file name
+    const filenameToStream = filename.split('/').pop();
+    
+    console.log("File Name to Stream", filenameToStream);
+    // Construct the API URL for the file stream
+    const videoUrl = `http://127.0.0.1:5000/stream/video/${filenameToStream}`;
+
+    deleteFileModal.style.display = "none"; // Show the modal only if files exist
+
+    // Create a modal for the video player
+
+    const modal = document.createElement("div");
+    modal.classList.add("video-modal");
+    modal.style.display = "flex";
+    modal.style.justifyContent = "center";
+    modal.style.alignItems = "center";
+    modal.style.position = "fixed";
+    modal.style.top = "0";
+    modal.style.left = "0";
+    modal.style.width = "100%";
+    modal.style.height = "100%";
+    modal.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+    modal.innerHTML = `
+        <div style="position: relative; width: 80%; height: 80%; background: #000;">
+            <video controls autoplay style="width: 100%; height: 100%;">
+                <source src="${videoUrl}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <button style="position: absolute; top: 10px; right: 10px; background: red; color: white; border: none; padding: 10px; cursor: pointer;" id="closeModal">Close</button>
+        </div>
+    `;
+
+    // Append modal to the body
+    document.body.appendChild(modal);
+
+    // Add event listener to close the modal
+    document.getElementById("closeModal").addEventListener("click", () => {
+        modal.remove();
+    });
 }
